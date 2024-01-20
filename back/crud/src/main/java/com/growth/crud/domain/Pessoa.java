@@ -1,6 +1,7 @@
 package com.growth.crud.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.TypeAlias;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "pessoa")
 @Data
+@AllArgsConstructor
 public class Pessoa {
 
     @Id

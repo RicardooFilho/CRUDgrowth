@@ -1,11 +1,13 @@
 package com.growth.crud.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Table(name = "endereco")
 @Data
+@AllArgsConstructor
 public class Endereco {
 
     @Id
