@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1" author="RicardooFilho">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela pessoa já foi criada.">
+            <not>
+                <tableExists tableName="pessoa"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="pessoa">
+            <column name="id" type="int">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data_nascimento" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cpf" type="varchar(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="telefone" type="varchar(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="idade" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="endereco_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="pessoa"
+                                 baseColumnNames="endereco_id"
+                                 constraintName="fk_endereco"
+                                 referencedTableName="endereco"
+                                 referencedColumnNames="id"/>
+
+        <createSequence sequenceName="pessoa_sequence" minValue="1" maxValue="9999" startValue="1" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

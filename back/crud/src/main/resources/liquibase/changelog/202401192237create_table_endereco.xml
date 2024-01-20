@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1" author="RicardooFilho">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela endereco já foi criada.">
+            <not>
+                <tableExists tableName="endereco"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="endereco">
+            <column name="id" type="int">
+                <constraints primaryKey="true" foreignKeyName="fk_endereco"/>
+            </column>
+            <column name="cep" type="varchar(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logradouro" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="numero" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cidade" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uf" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="endereco_sequence" startValue="1" minValue="1" maxValue="9999" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>
