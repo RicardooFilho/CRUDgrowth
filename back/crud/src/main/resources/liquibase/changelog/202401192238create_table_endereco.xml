@@ -14,7 +14,7 @@
 
         <createTable tableName="endereco">
             <column name="id" type="int">
-                <constraints primaryKey="true" foreignKeyName="fk_endereco"/>
+                <constraints primaryKey="true"/>
             </column>
             <column name="cep" type="varchar(8)">
                 <constraints nullable="false"/>
@@ -31,7 +31,24 @@
             <column name="uf" type="varchar(2)">
                 <constraints nullable="false"/>
             </column>
+            <column name="pessoa_id" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+
+        <addForeignKeyConstraint baseTableName="endereco"
+                                 baseColumnNames="pessoa_id"
+                                 constraintName="fk_pessoa_id"
+                                 referencedTableName="pessoa"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="RicardooFilho">
+        <preConditions onFail="MARK_RAN" onFailMessage="A sequence de endereco já existe">
+            <not>
+                <sequenceExists sequenceName="endereco_sequence"/>
+            </not>
+        </preConditions>
 
         <createSequence sequenceName="endereco_sequence" startValue="1" minValue="1" maxValue="9999" incrementBy="1"/>
     </changeSet>

@@ -3,6 +3,8 @@ package com.growth.crud.dto;
 import com.growth.crud.domain.Endereco;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
@@ -22,7 +24,7 @@ public class PessoaDto {
     @NotBlank(message = "Insira um nome")
     private String nome;
 
-    @NotEmpty
+    @NotNull
     private LocalDate dataNascimento;
 
     @NotBlank(message = "Insira um CPF")
@@ -30,9 +32,10 @@ public class PessoaDto {
     private String cpf;
 
     @NotBlank(message = "Insira um telefone")
+    @Size(min = 11, max = 11, message = "Telefone inválido")
     private String telefone;
 
-    @NotEmpty(message = "Insira uma idade")
+    @NotNull
     private Integer idade;
 
     private List<Endereco> enderecos = new ArrayList<Endereco>();

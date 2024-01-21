@@ -1,8 +1,10 @@
 package com.growth.crud.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.TypeAlias;
 
 import java.sql.Array;
@@ -14,6 +16,7 @@ import java.util.List;
 @Table(name = "pessoa")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Pessoa {
 
     @Id
@@ -25,6 +28,7 @@ public class Pessoa {
     private String nome;
 
     @Column(name = "data_nascimento", nullable = false)
+    @PastOrPresent(message = "Data nascimento não pode ser uma data futura")
     private LocalDate dataNascimento;
 
     @Column(name = "cpf", length = 11, nullable = false)
@@ -36,7 +40,7 @@ public class Pessoa {
     @Column(name = "idade", nullable = false)
     private Integer idade;
 
-    @OneToMany
-    @JoinColumn(name = "cep_id", referencedColumnName = "id", nullable = false)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
     private List<Endereco> enderecos = new ArrayList<Endereco>();
 }

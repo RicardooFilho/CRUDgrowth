@@ -2,7 +2,9 @@ package com.growth.crud.adapter;
 
 import com.growth.crud.domain.Endereco;
 import com.growth.crud.dto.EnderecoDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EnderecoAdapter implements Adapter<EnderecoDto, Endereco>{
 
     @Override

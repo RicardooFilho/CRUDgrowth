@@ -23,7 +23,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="cpf" type="varchar(11)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="telefone" type="varchar(11)">
                 <constraints nullable="false"/>
@@ -31,16 +31,15 @@
             <column name="idade" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="endereco_id" type="int">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
+    </changeSet>
 
-        <addForeignKeyConstraint baseTableName="pessoa"
-                                 baseColumnNames="endereco_id"
-                                 constraintName="fk_endereco"
-                                 referencedTableName="endereco"
-                                 referencedColumnNames="id"/>
+    <changeSet id="2" author="RicardooFilho">
+        <preConditions onFail="MARK_RAN" onFailMessage="A sequence de pessoa já existe">
+            <not>
+                <sequenceExists sequenceName="pessoa_sequence"/>
+            </not>
+        </preConditions>
 
         <createSequence sequenceName="pessoa_sequence" minValue="1" maxValue="9999" startValue="1" incrementBy="1"/>
     </changeSet>
