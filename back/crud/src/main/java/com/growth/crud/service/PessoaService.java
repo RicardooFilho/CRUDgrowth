@@ -27,6 +27,10 @@ public class PessoaService {
     public PessoaDto getUmaPessoaPorId(Long id) {
         PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
 
+        pessoaDto.setTelefone(Formatter.formatTelefone(pessoaDto.getTelefone(), "(##) #####-####"));
+
+        pessoaDto.setCpf(Formatter.formatCpf(pessoaDto.getCpf(), "###.###.###-##"));
+
         return pessoaDto;
     }
 
@@ -34,7 +38,7 @@ public class PessoaService {
         return this.pessoaRepository.count();
     }
 
-    public Page<PessoaDto> getTodasPessoasPorNomeCpf(String nome, String cpf, Pageable pageable) throws ParseException {
+    public Page<PessoaDto> getTodasPessoasPorNomeCpf(String nome, String cpf, Pageable pageable) {
         Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.getByNomeAndCpf(nome, cpf, pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
         pessoaDtoPage.map(pessoaDto -> {
@@ -67,10 +71,8 @@ public class PessoaService {
         return pessoaDto;
     }
 
-    public PessoaDto savePessoa(PessoaDto pessoaDto) {
-         Pessoa pessoaSalva = this.pessoaRepository.save(this.pessoaAdapter.toEntity(pessoaDto));
-
-         return this.pessoaAdapter.toDto(pessoaSalva);
+    public Pessoa savePessoa(Pessoa pessoa) {
+         return this.pessoaRepository.save(pessoa);
     }
 
     public void deletePessoa(Long id) {

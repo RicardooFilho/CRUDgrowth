@@ -50,7 +50,7 @@ public class PessoaRepositoryTest {
 
         Pessoa novaPessoa = this.pessoaRepository.save(pessoa);
 
-        assertThat(novaPessoa.getId()).isNotNull().isEqualTo(1L);
+        assertThat(novaPessoa.getId()).isEqualTo(1L);
         assertThat(novaPessoa.getNome()).isEqualTo("Ricardo");
         assertThat(novaPessoa.getDataNascimento()).isEqualTo(LocalDate.of(2003, 10, 27));
         assertThat(novaPessoa.getCpf()).isEqualTo("12345678910");
@@ -67,7 +67,7 @@ public class PessoaRepositoryTest {
 
         Pessoa pessoaAtualizada = this.pessoaRepository.save(pessoa);
 
-        assertThat(pessoaAtualizada.getId()).isNotNull().isEqualTo(4L);
+        assertThat(pessoaAtualizada.getId()).isEqualTo(4L);
         assertThat(pessoaAtualizada.getNome()).isEqualTo("Nadai");
         assertThat(pessoaAtualizada.getDataNascimento()).isEqualTo(LocalDate.of(2003, 10, 27));
         assertThat(pessoaAtualizada.getCpf()).isEqualTo("52369874110");
@@ -83,7 +83,6 @@ public class PessoaRepositoryTest {
         List<Pessoa> pessoasSalvas = this.pessoaRepository.findAll();
 
         assertThat(pessoasSalvas).extracting(Pessoa::getId)
-                .hasSize(2)
                 .containsExactlyInAnyOrder(3L, 2L);
     }
 }

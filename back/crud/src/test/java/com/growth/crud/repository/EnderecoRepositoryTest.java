@@ -31,7 +31,7 @@ public class EnderecoRepositoryTest {
 
         Endereco enderecoSalvo = this.enderecoRepository.save(endereco);
 
-        assertThat(enderecoSalvo.getId()).isNotNull().isEqualTo(1L);
+        assertThat(enderecoSalvo.getId()).isEqualTo(1L);
         assertThat(enderecoSalvo.getCep()).isEqualTo("87045260");
         assertThat(enderecoSalvo.getLogradouro()).isEqualTo("Rua São João");
         assertThat(enderecoSalvo.getNumero()).isEqualTo(50);
@@ -47,7 +47,7 @@ public class EnderecoRepositoryTest {
 
         Endereco enderecoAtualizado = this.enderecoRepository.save(endereco);
 
-        assertThat(enderecoAtualizado.getId()).isNotNull().isEqualTo(1L);
+        assertThat(enderecoAtualizado.getId()).isEqualTo(1L);
         assertThat(enderecoAtualizado.getCep()).isEqualTo("87046280");
         assertThat(enderecoAtualizado.getLogradouro()).isEqualTo("Rua Garibaldi");
         assertThat(enderecoAtualizado.getNumero()).isEqualTo(50);

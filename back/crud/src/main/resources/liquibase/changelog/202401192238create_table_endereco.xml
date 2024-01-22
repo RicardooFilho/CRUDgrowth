@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="1" author="RicardooFilho">
+    <changeSet id="create-table-endereco" author="RicardooFilho">
         <preConditions onFail="MARK_RAN" onFailMessage="A tabela endereco já foi criada.">
             <not>
                 <tableExists tableName="endereco"/>
@@ -43,13 +43,13 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="2" author="RicardooFilho">
+    <changeSet id="create-sequence-endereco" author="RicardooFilho">
         <preConditions onFail="MARK_RAN" onFailMessage="A sequence de endereco já existe">
             <not>
                 <sequenceExists sequenceName="endereco_sequence"/>
             </not>
         </preConditions>
 
-        <createSequence sequenceName="endereco_sequence" startValue="1" minValue="1" maxValue="9999" incrementBy="1"/>
+        <createSequence sequenceName="endereco_sequence" startValue="1" minValue="1" incrementBy="1"/>
     </changeSet>
 </databaseChangeLog>

@@ -47,12 +47,10 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaDto> postPessoa (@RequestBody @Validated PessoaDto novaPessoaDto) {
-        PessoaDto pessoaDtoSalva = this.pessoaService.savePessoa(novaPessoaDto);
-
+    public ResponseEntity<Pessoa> postPessoa (@RequestBody @Validated Pessoa novaPessoa) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(pessoaDtoSalva);
+                .body(this.pessoaService.savePessoa(novaPessoa));
     }
 
     @PutMapping("/{id}")
