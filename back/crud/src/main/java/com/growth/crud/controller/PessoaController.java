@@ -40,7 +40,7 @@ public class PessoaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PessoaDto>> getTodasPessoasPorNomeCpf(@RequestParam("nome") String nome, @RequestParam("cpf") String cpf, Pageable pageable) throws Exception{
+    public ResponseEntity<Page<PessoaDto>> getTodasPessoasPorNomeCpf(@RequestParam(value = "nome", required = false) String nome, @RequestParam(value = "cpf", required = false) String cpf, Pageable pageable) throws Exception{
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.pessoaService.getTodasPessoasPorNomeCpf(nome, cpf, pageable));

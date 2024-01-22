@@ -3,7 +3,7 @@ package com.growth.crud.service;
 import com.growth.crud.adapter.PessoaAdapter;
 import com.growth.crud.domain.Pessoa;
 import com.growth.crud.dto.PessoaDto;
-import com.growth.crud.formatter.TelefoneFormatter;
+import com.growth.crud.formatter.Formatter;
 import com.growth.crud.repository.PessoaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.text.ParseException;
 
 @Service
@@ -37,10 +38,16 @@ public class PessoaService {
         Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.getByNomeAndCpf(nome, cpf, pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
         pessoaDtoPage.map(pessoaDto -> {
-                    pessoaDto.setTelefone(TelefoneFormatter.formatTelefone(pessoaDto.getTelefone(), "(##) #####-####"));
+                    pessoaDto.setTelefone(Formatter.formatTelefone(pessoaDto.getTelefone(), "(##) #####-####"));
 
                     return pessoaDto;
                 });
+
+        pessoaDtoPage.map(pessoaDto -> {
+            pessoaDto.setCpf(Formatter.formatCpf(pessoaDto.getCpf(), "###.###.###-##"));
+
+            return pessoaDto;
+        });
 
         return pessoaDtoPage;
     }
