@@ -124,7 +124,12 @@ public class PessoaControllerTest {
                             "\"dataNascimento\": \"2003-10-27\"," +
                             "\"cpf\": \"58294480096\"," +
                             "\"telefone\": \"44974001171\"," +
-                            "\"enderecos[0]\": {\"id\": \"1\"}";
+                            "\"enderecos\": {\"id\": \"1\"," +
+                            "\"cep\": \"87045260\"," +
+                            "\"logradouro\": \"Rua São João\"," +
+                            "\"numero\": \"50\"," +
+                            "\"cidade\": \"Maringá\"," +
+                            "\"uf\": \"PR\"}";
 
         mockMvc.perform(put("/api/pessoas/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
