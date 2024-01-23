@@ -11,9 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.Normalizer;
-import java.text.ParseException;
-
 @Service
 public class PessoaService {
 
@@ -27,9 +24,13 @@ public class PessoaService {
     public PessoaDto getUmaPessoaPorId(Long id) {
         PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
 
-        pessoaDto.setTelefone(Formatter.formatTelefone(pessoaDto.getTelefone(), "(##) #####-####"));
+        pessoaDto.setTelefone(Formatter.formatString(pessoaDto.getTelefone(), "(##) #####-####"));
 
-        pessoaDto.setCpf(Formatter.formatCpf(pessoaDto.getCpf(), "###.###.###-##"));
+        pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
+
+        pessoaDto.getEnderecos().forEach(endereco -> {
+            endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
+        });
 
         return pessoaDto;
     }
@@ -42,13 +43,13 @@ public class PessoaService {
         Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.getByNomeAndCpf(nome, cpf, pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
         pessoaDtoPage.map(pessoaDto -> {
-                    pessoaDto.setTelefone(Formatter.formatTelefone(pessoaDto.getTelefone(), "(##) #####-####"));
+            pessoaDto.setTelefone(Formatter.formatString(pessoaDto.getTelefone(), "(##) #####-####"));
 
-                    return pessoaDto;
-                });
+            pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
 
-        pessoaDtoPage.map(pessoaDto -> {
-            pessoaDto.setCpf(Formatter.formatCpf(pessoaDto.getCpf(), "###.###.###-##"));
+            pessoaDto.getEnderecos().forEach(endereco -> {
+                endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
+            });
 
             return pessoaDto;
         });
