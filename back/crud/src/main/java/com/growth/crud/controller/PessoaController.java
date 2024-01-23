@@ -54,10 +54,10 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaDto> putPessoa(@PathVariable Long id, @RequestBody @Validated Pessoa pessoa) {
+    public ResponseEntity<Pessoa> putPessoa(@PathVariable Long id, @RequestBody @Validated Pessoa pessoa) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.pessoaService.putPessoa(pessoa));
+                .body(this.pessoaService.putPessoa(id, pessoa));
     }
 
     @DeleteMapping("/{id}")

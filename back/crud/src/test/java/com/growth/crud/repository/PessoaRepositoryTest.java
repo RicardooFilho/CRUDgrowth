@@ -30,7 +30,6 @@ public class PessoaRepositoryTest {
     @Test
     public void getByNomeAndCpfTest() {
 
-
         Page<Pessoa> pessoaPage = this.pessoaRepository.getByNomeAndCpf("Ricardo", "10", pageable);
 
         assertThat(pessoaPage).extracting(Pessoa::getId)

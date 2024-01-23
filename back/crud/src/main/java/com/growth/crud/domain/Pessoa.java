@@ -7,6 +7,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Pessoa {
 
     @Id
@@ -49,7 +51,7 @@ public class Pessoa {
     @NotNull(message = "Informe sua idade")
     private Integer idade;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
     private List<Endereco> enderecos = new ArrayList<Endereco>();
 }

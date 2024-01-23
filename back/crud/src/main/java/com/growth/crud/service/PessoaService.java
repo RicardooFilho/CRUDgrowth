@@ -57,8 +57,8 @@ public class PessoaService {
         return pessoaDtoPage;
     }
 
-    public PessoaDto putPessoa (Pessoa pessoaNova) {
-        Pessoa pessoa = this.pessoaRepository.findById(pessoaNova.getId()).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
+    public Pessoa putPessoa (Long id, Pessoa pessoaNova) {
+        Pessoa pessoa = this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada"));
 
         pessoa.setNome(pessoaNova.getNome());
         pessoa.setDataNascimento(pessoaNova.getDataNascimento());
@@ -67,9 +67,7 @@ public class PessoaService {
         pessoa.setIdade(pessoaNova.getIdade());
         pessoa.setEnderecos(pessoaNova.getEnderecos());
 
-        PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.save(pessoa));
-
-        return pessoaDto;
+        return this.pessoaRepository.save(pessoa);
     }
 
     public Pessoa savePessoa(Pessoa pessoa) {

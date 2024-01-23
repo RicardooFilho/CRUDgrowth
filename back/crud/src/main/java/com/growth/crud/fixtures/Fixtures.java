@@ -16,7 +16,12 @@ public class Fixtures {
                 "22029103012",
                 "44974001153",
                 20,
-                List.of(new Endereco()));
+                List.of(new Endereco(1L,
+                        "87045260",
+                        "Rua São João",
+                        50,
+                        "Maringá",
+                        "PR")));
 
         return pessoa;
     }
