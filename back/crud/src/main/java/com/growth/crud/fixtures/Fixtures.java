@@ -43,4 +43,26 @@ public class Fixtures {
 
         return pessoaDto;
     }
+
+    public static Endereco criaEndereco() {
+        Endereco endereco = new Endereco(1L,
+                "87045260",
+                "Rua São João",
+                50,
+                "Maringá",
+                "PR");
+
+        return endereco;
+    }
+
+    public static EnderecoDto criaEnderecoDto() {
+        EnderecoDto enderecoDto = new EnderecoDto(1L,
+                "87045260",
+                "Rua São João",
+                50,
+                "Maringá",
+                "PR");
+
+        return enderecoDto;
+    }
 }

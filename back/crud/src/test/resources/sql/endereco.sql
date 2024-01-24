@@ -1,1 +1,1 @@
-INSERT INTO endereco (id, cep, logradouro, numero, cidade, uf, pessoa_id) VALUES (1L, '87046280', 'Rua Garibaldi', 50, 'Maringá', 'PR', 2L);
+INSERT INTO endereco (id, cep, logradouro, numero, cidade, uf, pessoa_id) VALUES (1, '87046280', 'Rua Garibaldi', 50, 'Maringá', 'PR', 2);

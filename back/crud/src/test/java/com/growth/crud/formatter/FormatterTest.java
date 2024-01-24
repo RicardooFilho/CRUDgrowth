@@ -2,8 +2,11 @@ package com.growth.crud.formatter;
 
 import com.growth.crud.adapter.PessoaAdapter;
 import com.growth.crud.dto.PessoaDto;
+import com.growth.crud.fixtures.Fixtures;
 import com.growth.crud.repository.PessoaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,20 +23,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Sql("/sql/pessoa.sql")
-@Component
+@Sql({"/sql/pessoa.sql", "/sql/endereco.sql"})
 public class FormatterTest {
 
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    @Autowired
+    @InjectMocks
     private PessoaAdapter pessoaAdapter;
 
 
     @Test
     public void formatTelefonePageableTest() {
         Pageable pageable = PageRequest.of(0, 20);
+
         Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.findAll(pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
         pessoaDtoPage.map(pessoaDto -> {
@@ -42,18 +45,30 @@ public class FormatterTest {
             return pessoaDto;
         });
 
-        assertThat(pessoaDtoPage.getContent().get(0).getTelefone()).isEqualTo("123.456.789-10");
+        assertThat(pessoaDtoPage.getContent().get(0).getTelefone()).isEqualTo("(44) 97400-1185");
     }
 
-    public static void formatCpfPageable(Page<PessoaDto> pessoaDtoPage) {
+    @Test
+    public  void formatCpfPageableTest() {
+        Pageable pageable = PageRequest.of(0, 20);
+
+        Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.findAll(pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
+
         pessoaDtoPage.map(pessoaDto -> {
             pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
 
             return pessoaDto;
         });
+
+        assertThat(pessoaDtoPage.getContent().get(0).getCpf()).isEqualTo("123.456.789-10");
     }
 
-    public static void formatCepPageable(Page<PessoaDto> pessoaDtoPage) {
+    @Test
+    public void formatCepPageable() {
+        Pageable pageable = PageRequest.of(0, 20);
+
+        Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.findAll(pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
+
         pessoaDtoPage.map(pessoaDto -> {
             pessoaDto.getEnderecos().forEach(endereco -> {
                 endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
@@ -61,19 +76,42 @@ public class FormatterTest {
 
             return pessoaDto;
         });
+
+        assertThat(pessoaDtoPage.getContent().get(0).getEnderecos().get(0).getCep()).isEqualTo("87046-280");
     }
 
-    public static void formatTelefone(PessoaDto pessoaDto) {
+    @Test
+    public void formatTelefone() {
+        Long id = 2L;
+
+        PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
+
         pessoaDto.setTelefone(Formatter.formatString(pessoaDto.getTelefone(), "(##) #####-####"));
+
+        assertThat(pessoaDto.getTelefone()).isEqualTo("(44) 97400-1185");
     }
 
-    public static void formatCpf(PessoaDto pessoaDto) {
+    @Test
+    public void formatCpf() {
+        Long id = 2L;
+
+        PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
+
         pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
+
+        assertThat(pessoaDto.getCpf()).isEqualTo("123.456.789-10");
     }
 
-    public static void formatCep(PessoaDto pessoaDto) {
+    @Test
+    public void formatCep() {
+        Long id = 2L;
+
+        PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
+
         pessoaDto.getEnderecos().forEach(endereco -> {
             endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
         });
+
+        assertThat(pessoaDto.getEnderecos().get(0).getCep()).isEqualTo("87046-280");
     }
 }
