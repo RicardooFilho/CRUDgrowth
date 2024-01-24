@@ -1,7 +1,6 @@
 package com.growth.crud.adapter;
 
 import com.growth.crud.domain.Endereco;
-import com.growth.crud.domain.EnderecoTest;
 import com.growth.crud.dto.EnderecoDto;
 import com.growth.crud.fixtures.Fixtures;
 import org.junit.jupiter.api.Test;

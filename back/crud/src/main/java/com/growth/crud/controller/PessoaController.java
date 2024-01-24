@@ -1,22 +1,15 @@
 package com.growth.crud.controller;
 
-import com.growth.crud.adapter.PessoaAdapter;
 import com.growth.crud.domain.Pessoa;
 import com.growth.crud.dto.PessoaDto;
-import com.growth.crud.repository.PessoaRepository;
 import com.growth.crud.service.PessoaService;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PostLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/pessoas")

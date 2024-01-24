@@ -3,11 +3,9 @@ package com.growth.crud.domain;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatStream;
 
 public class PessoaTest {
 
