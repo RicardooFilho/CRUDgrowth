@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,7 +60,8 @@ public class PessoaControllerTest {
     @Order(3)
     public void getQuantiadePessoaTest() throws Exception {
         mockMvc.perform(get("/api/pessoas/quantidade-pessoa"))
-                .andExpect(status().isOk());
+                .andExpectAll(status().isOk(),
+                            content().string(is("1")));
     }
 
     @Test
