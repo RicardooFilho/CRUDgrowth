@@ -1,7 +1,6 @@
 package com.growth.crud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.growth.crud.adapter.PessoaAdapter;
 import com.growth.crud.domain.Pessoa;
 import com.growth.crud.fixtures.Fixtures;
 import org.junit.jupiter.api.MethodOrderer;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,13 +45,25 @@ public class PessoaControllerTest {
 
     @Test
     @Order(2)
+    public void pessoaComCpfInvalidoPostTest() throws Exception {
+        Pessoa pessoa = Fixtures.criaPessoa();
+        pessoa.setCpf("00000000000");
+
+        mockMvc.perform(post("/api/pessoas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(pessoa)))
+                        .andExpect(content().string(containsStringIgnoringCase("CPF inserido é inválido")));
+    }
+
+    @Test
+    @Order(3)
     public void getQuantiadePessoaTest() throws Exception {
         mockMvc.perform(get("/api/pessoas/quantidade-pessoa"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void pessoaGetPorIdTest() throws Exception {
         Long id = 1L;
 
@@ -73,7 +85,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void pessoaGetTodasPessoasPorNomeTest() throws Exception {
         mockMvc.perform(get("/api/pessoas?nome=ricar"))
                 .andExpectAll(content().contentType(MediaType.APPLICATION_JSON),
@@ -93,7 +105,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void pessoaGetTodasPessoasPorCpfTest() throws Exception {
         mockMvc.perform(get("/api/pessoas?cpf=20"))
                 .andExpectAll(content().contentType(MediaType.APPLICATION_JSON),
@@ -113,7 +125,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void pessoaGetTodasPessoasPorNomeCpfTest() throws Exception {
         mockMvc.perform(get("/api/pessoas?nome=ricar&cpf=20"))
                 .andExpectAll(content().contentType(MediaType.APPLICATION_JSON),
@@ -133,7 +145,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void pessoaGetTodasPessoasSemNomeCpf() throws Exception {
         mockMvc.perform(get("/api/pessoas"))
                 .andExpectAll(content().contentType(MediaType.APPLICATION_JSON),
@@ -153,7 +165,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void pessoaPutTest() throws Exception {
         Long id = 1L;
 
@@ -176,7 +188,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void pessoaGetPorIdDepoisDoPut() throws Exception{
         Long id = 1L;
 
@@ -198,7 +210,7 @@ public class PessoaControllerTest {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     public void pessoaDeleteTest() throws Exception {
         Long id = 1L;
 
