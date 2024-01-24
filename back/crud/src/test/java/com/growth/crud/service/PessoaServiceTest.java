@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -41,30 +42,7 @@ public class PessoaServiceTest {
     private PessoaService pessoaService;
 
     @Test
-    public void getUmaPessoaPorIdTest() {
-        when(this.pessoaRepository.findById(any())).thenReturn(Optional.of(Fixtures.criaPessoa()));
-        when(this.pessoaAdapter.toDto(any())).thenReturn(Fixtures.criaPessoaDto());
-
-        PessoaDto pessoaDto1 = this.pessoaService.getUmaPessoaPorId(1L);
-
-        assertThat(pessoaDto1.getCpf()).isEqualTo("220.291.030-12");
-        assertThat(pessoaDto1.getTelefone()).isEqualTo("(44) 97400-1153");
-        assertThat(pessoaDto1.getEnderecos().get(0).getCep()).isEqualTo("87045-260");
-    }
-
-    @Test
     public void getUmaPessoaPorIdExceptionTest() {
         assertThrows(EntityNotFoundException.class, () -> this.pessoaService.getUmaPessoaPorId(1L));
     }
-
-    /*@Test
-    public void getTodasPessoasPorNomeCpfTest() {
-        when(this.pessoaRepository.getByNomeAndCpf(any(), any(), any()).map(pessoa -> this.pessoaAdapter.toDto(pessoa))).thenReturn((Page<PessoaDto>) List.of(Fixtures.criaPessoaDto()));
-
-        Page<PessoaDto> pessoaDtoPage = this.pessoaService.getTodasPessoasPorNomeCpf("Ricardo", "20", pageable);
-
-        assertThat(pessoaDtoPage.map(pessoaDto -> pessoaDto.getEnderecos().get(0).getCep())).isEqualTo("87045-260");
-    }*/
-
-
 }

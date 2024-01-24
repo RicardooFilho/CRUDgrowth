@@ -2,6 +2,7 @@ package com.growth.crud.fixtures;
 
 import com.growth.crud.domain.Endereco;
 import com.growth.crud.domain.Pessoa;
+import com.growth.crud.dto.EnderecoDto;
 import com.growth.crud.dto.PessoaDto;
 
 import java.time.LocalDate;

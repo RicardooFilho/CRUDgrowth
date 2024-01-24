@@ -2,6 +2,7 @@ package com.growth.crud.adapter;
 
 import com.growth.crud.domain.Pessoa;
 import com.growth.crud.dto.PessoaDto;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

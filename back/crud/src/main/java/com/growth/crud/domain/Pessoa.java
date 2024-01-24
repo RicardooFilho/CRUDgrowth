@@ -51,7 +51,7 @@ public class Pessoa {
     @NotNull(message = "Informe sua idade")
     private Integer idade;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
     private List<Endereco> enderecos = new ArrayList<Endereco>();
 }

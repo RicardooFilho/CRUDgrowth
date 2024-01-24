@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.StyledEditorKit;
+import java.util.Objects;
+
 @Service
 public class PessoaService {
 
@@ -24,13 +27,9 @@ public class PessoaService {
     public PessoaDto getUmaPessoaPorId(Long id) {
         PessoaDto pessoaDto = this.pessoaAdapter.toDto(this.pessoaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada")));
 
-        pessoaDto.setTelefone(Formatter.formatString(pessoaDto.getTelefone(), "(##) #####-####"));
-
-        pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
-
-        pessoaDto.getEnderecos().forEach(endereco -> {
-            endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
-        });
+        Formatter.formatTelefone(pessoaDto);
+        Formatter.formatCpf(pessoaDto);
+        Formatter.formatCep(pessoaDto);
 
         return pessoaDto;
     }
@@ -40,19 +39,21 @@ public class PessoaService {
     }
 
     public Page<PessoaDto> getTodasPessoasPorNomeCpf(String nome, String cpf, Pageable pageable) {
-        Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.getByNomeAndCpf(nome, cpf, pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
+        if (Objects.nonNull(nome) || Objects.nonNull(cpf)) {
+            Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.getByNomeAndCpf(nome, cpf, pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
-        pessoaDtoPage.map(pessoaDto -> {
-            pessoaDto.setTelefone(Formatter.formatString(pessoaDto.getTelefone(), "(##) #####-####"));
+            Formatter.formatTelefonePageable(pessoaDtoPage);
+            Formatter.formatCpfPageable(pessoaDtoPage);
+            Formatter.formatCepPageable(pessoaDtoPage);
 
-            pessoaDto.setCpf(Formatter.formatString(pessoaDto.getCpf(), "###.###.###-##"));
+            return pessoaDtoPage;
+        }
 
-            pessoaDto.getEnderecos().forEach(endereco -> {
-                endereco.setCep(Formatter.formatString(endereco.getCep(), "#####-###"));
-            });
+        Page<PessoaDto> pessoaDtoPage = this.pessoaRepository.findAll(pageable).map(pessoa -> this.pessoaAdapter.toDto(pessoa));
 
-            return pessoaDto;
-        });
+        Formatter.formatTelefonePageable(pessoaDtoPage);
+        Formatter.formatCpfPageable(pessoaDtoPage);
+        Formatter.formatCepPageable(pessoaDtoPage);
 
         return pessoaDtoPage;
     }
@@ -65,7 +66,8 @@ public class PessoaService {
         pessoa.setCpf(pessoaNova.getCpf());
         pessoa.setTelefone(pessoaNova.getTelefone());
         pessoa.setIdade(pessoaNova.getIdade());
-        pessoa.setEnderecos(pessoaNova.getEnderecos());
+        pessoa.getEnderecos().clear();
+        pessoa.getEnderecos().addAll(pessoaNova.getEnderecos());
 
         return this.pessoaRepository.save(pessoa);
     }
